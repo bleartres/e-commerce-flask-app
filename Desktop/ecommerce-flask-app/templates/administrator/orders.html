@@ -1,0 +1,71 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Orders :: Customer{% endblock %}
+
+{% block content %}
+	<div class="vspace-30"></div>
+
+	<div class="container">
+
+
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<h4>Orders</h4>
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<p class="pull-right">{{ len(orders) }} orders</p>
+			</div>
+		</div>
+
+
+		<div class="vspace-30"></div>
+
+		{% if len(orders) > 0 %}
+		<div class="table-responsive">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th width="100"></th>
+						<th width="20">#</th>
+						<th>Order</th>
+						<th width="120">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for order in orders %}
+					<tr>
+						<td>
+							<a href="{{ url_for('deleteOrderById', id=order.id) }}" class="btn btn-sm btn-warning tn-tooltip" onclick="return confirm('Are you sure!?');" data-toggle="tooltip" data-placement="top" title="Remove product from cart">
+								<i class="fa fa-close"></i>
+							</a>
+							<a href="{{ url_for('viewOrder', id=order.id) }}" class="btn btn-sm btn-warning tn-tooltip" data-toggle="tooltip" data-placement="top" title="View order items">
+								<i class="fa fa-eye"></i>
+							</a>
+						</td>
+						<td>{{ order.id }}</td>
+						<td>
+							Order #{{ order.id }}
+						</td>
+						<td>
+							{{ orderTotal(order.id) }} &euro;
+						</td>
+					</tr>
+					{% endfor %}
+					<tr>
+						<td colspan="3"></td>
+						<td>
+							{{ allOrdersTotal() }} &euro;
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		{% else %}
+			<p>0 Orders</p>
+		{% endif %}
+
+	</div>
+
+
+	<div class="vspace-30"></div>
+{% endblock %}

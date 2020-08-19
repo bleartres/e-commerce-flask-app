@@ -1,0 +1,48 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}New :: Slides{% endblock %}
+
+{% block content %}
+	<div class="vspace-30"></div>
+
+	<div class="container">
+
+
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<h4>Add new slide</h4>
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<p class="pull-right"></p>
+			</div>
+		</div>
+
+
+		<div class="vspace-30"></div>
+
+
+		<form method="POST" action='{{ url_for("createNewSlide") }}' enctype="multipart/form-data">
+			<div class="form-group">
+				<label>Title:</label>
+				<input type="text" name="title" class="form-control form-control-sm" required="required">
+			</div>
+			<div class="form-group">
+				<label>Description:</label>
+				<textarea name="description" class="form-control form-control-sm" required="required"></textarea>
+			</div>
+			<div class="form-group">
+				<label>Image:</label>
+				<input type="file" name="image">
+			</div>
+		    <button type="submit" class="btn btn-sm btn-warning">
+		    	Submit
+			</button>
+		</form>
+
+
+	</div>
+
+
+	<div class="vspace-30"></div>
+{% endblock %}
+

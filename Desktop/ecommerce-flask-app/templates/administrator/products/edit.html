@@ -1,0 +1,69 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Edit :: Products{% endblock %}
+
+{% block content %}
+	<div class="vspace-30"></div>
+
+	<div class="container">
+
+
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<h4>Edit product</h4>
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<p class="pull-right"></p>
+			</div>
+		</div>
+
+
+		<div class="vspace-30"></div>
+
+
+		<form method="POST" action="{{ url_for('updateProductAction') }}" enctype="multipart/form-data">
+			<div class="form-group">
+				<label>Name:</label>
+				<input type="text" name="name" class="form-control form-control-sm" required="required" value="{{ product.name }}">
+			</div>
+
+			<div class="form-group">
+				<label>Category:</label>
+				<select name="category" class="form-control-sm form-control" required="required">
+					{% if categories %}
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category.id == product.category_id %} selected="selected" {% endif %}>{{ category.name }}</option> 
+                        {% endfor %}
+                    {% endif %}
+				</select>
+			</div>
+			
+			<div class="form-group">
+				<label>Description:</label>
+				<textarea name="description" class="form-control form-control-sm" required="required">{{ product.description }}</textarea>
+			</div>
+			<div class="form-group">
+				<label>Price:</label>
+				<input type="text" name="price" class="form-control form-control-sm" required="required" value="{{ product.price }}">
+			</div>
+			<div class="form-group">
+				<label>Discount:</label>
+				<input type="number" name="discount" class="form-control form-control-sm" required="required" value="{{ product.discount }}">
+			</div>
+			<div class="form-group">
+				<label>Image:</label>
+				<input type="file" name="image">
+			</div>
+			<input type="hidden" name="id" value="{{ product.id }}">
+		    <button type="submit" class="btn btn-sm btn-warning">
+		    	Submit
+			</button>
+		</form>
+
+
+	</div>
+
+
+	<div class="vspace-30"></div>
+{% endblock %}
+

@@ -1,0 +1,9 @@
+.center {
+	text-align: center;
+}
+
+.auth-box img {
+	width: 160px;
+	display: block;
+	margin: 0px auto 30px auto;
+}

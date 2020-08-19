@@ -1,0 +1,57 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+
+	<div class="vspace-30"></div>
+
+			<div class="container">
+
+			<a href="{{ url_for('addNewProduct') }}" class="btn btn-sm btn-warning">
+				<i class="fa fa-plus-circle"></i>
+				Add new product
+			</a>
+	
+			<div class="vspace-30"></div>
+			
+			{% if products %}		
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th width="50">#</th>
+							<th>Image</th>
+							<th>Product name</th>
+							<th width="100"></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for product in products %}
+						<tr>
+							<td>{{ product.id }}</td>
+							<td width="80">
+								<img src="{{ url_for('static', filename='img/products/') }}{{ generateImageForProduct(product.image) }}" width="70" style="display: block; margin: 0px auto;">
+							</td>
+							<td>{{ product.name }}</td>
+							<td>
+								<a href="{{ url_for('deleteProduct', id=product.id) }}" class="btn btn-sm btn-warning tn-tooltip" onclick="return confirm('Are you sure!?');" data-toggle="tooltip" data-placement="top" title="Remove product">
+									<i class="fa fa-close"></i>
+								</a>
+								<a href="{{ url_for('updateProduct', id=product.id) }}" class="btn btn-sm btn-warning tn-tooltip" data-toggle="tooltip" data-placement="top" title="Edit product">
+									<i class="fa fa-edit"></i>
+								</a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			</div>
+			{% else %}
+				0 products
+			{% endif %}
+
+	<div class="vspace-30"></div>
+
+{% endblock %}

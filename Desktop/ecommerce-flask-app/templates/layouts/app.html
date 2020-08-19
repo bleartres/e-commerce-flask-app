@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content= "width=device-width, initial-scale=1.0"> 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+
+    <!-- Font-awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}" />
+
+    <!-- Font-awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
+
+
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>    
+
+    <!-- HEADER -->
+    <div id="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <a href="{{ url_for('home') }}">
+                        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="logo">
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <form action="{{ url_for('search') }}" method="post" class="form form-inline search">
+                        <div class="form-group">
+                            <input  name="search" type="text" class="form-control form-control-sm" id="password" placeholder="Search..." required="required" minlength="2">
+                        </div>
+                        <button class="btn btn-sm btn-warning">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+
+                    <div class="clearfix"></div>
+
+                    <div class="auth-links">
+                    {% if session.get('is_logged_in') %}
+
+                        {% if session.get('role') == 1 %}
+                        <a href="{{ url_for('orders') }}">
+                            {{ session.get('username') }}
+                        </a> 
+                        {% elif session.get('role') == 2 %}
+                        <a href="{{ url_for('adminOrders') }}">
+                            {{ session.get('username') }}
+                        </a> 
+                        {% endif %}
+
+                        &nbsp;|&nbsp;
+                        <a href="{{ url_for('logout') }}">
+                            <i class="fa fa-sign-out"></i>
+                            Sign out
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}">
+                            <i class="fa fa-sign-in"></i>
+                            Login
+                        </a>
+                        &nbsp;|&nbsp;
+                        <a href="{{ url_for('register') }}">
+                            <i class="fa fa-user"></i>
+                            Register
+                        </a>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+    <!-- ./HEADER -->
+
+
+
+    <!-- MAIN MANU -->
+    <div id="main-menu">
+        <div class="container">    
+            <nav class="site-header">
+                <a class="py-2 d-none d-md-inline-block" href="{{ url_for('home') }}">Home</a>
+                <a class="py-2 d-none d-md-inline-block" href="{{ url_for('shop') }}">Shop</a>
+
+                {% if not session.get('is_logged_in') or int(session.get('role')) == 1 %}
+                <a class="py-2 d-none d-md-inline-block" href="{{ url_for('about') }}">About Us</a>
+                <a class="py-2 d-none d-md-inline-block" href="
+                {{ url_for('contact') }}">Contact Us</a>
+                {% endif %}
+
+
+                {% if session.get('is_logged_in') and int(session.get('role')) == 2 %}
+                <a class="py-2 d-none d-md-inline-block" href="{{ url_for('categories') }}">Categories</a>
+                <a class="py-2 d-none d-md-inline-block" href="{{ url_for('products') }}">Products</a>
+                <a class="py-2 d-none d-md-inline-block" href="{{ url_for('adminOrders') }}">Orders</a>
+                <a class="py-2 d-none d-md-inline-block" href="{{ url_for('slides') }}">Slides</a>
+                <a class="py-2 d-none d-md-inline-block" href="{{ url_for('subscribers') }}">Subscribers</a>
+                {% endif %}
+
+
+                <a class="py-2 d-none d-md-inline-block cart pull-right" href="{{ url_for('cart') }}">
+                    <i class="fa fa-shopping-basket"></i>
+                    Cart
+                    <span class="badge badge-pill badge-light">{{ countCartItems() }}</span>
+                </a>
+
+            </nav>
+        </div>
+    </div>
+    <!-- ./MAIN MANU -->
+
+
+
+
+    
+
+
+
+    <!-- CONTENT -->
+    <div id="content">
+        {% block content%}{% endblock %}
+    </div>
+    <!-- ./CONTENT --> 
+
+
+
+    <!-- FOOTER -->
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                    <a href="{{ url_for('home') }}">
+                        <img src="{{ url_for('static', filename='img/logo-white.png') }}" alt="Logo" class="logo">
+                    </a>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                    <h3>Menu</h3>
+                    <ul>
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('shop') }}">Shop</a></li>
+                        <li><a href="{{ url_for('about') }}">About Us</a></li>
+                        <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                    <h3>Categories</h3>
+                    <ul>
+                        {% if categories %}
+                            {% for category in categories %}
+                                <li><a href="">{{ category.name }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                    <h3>Subscribe</h3>
+                    <form method="post" action="{{ url_for('subscribe') }}">
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control form-control-sm" id="email" aria-describedby="email" placeholder="Enter your email address" required="required">
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-warning">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ./FOOTER -->
+
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+    <script type="text/javascript">
+        {% block js %}{% endblock %}
+    </script>
+
+  </body>
+</html>
+

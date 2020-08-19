@@ -1,0 +1,73 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Category{% endblock %}
+
+{% block content %}
+
+	<div class="vspace-30"></div>
+
+			<div class="container">
+
+			<a href="{{ url_for('createNewCategory') }}" class="btn btn-sm btn-warning">
+				<i class="fa fa-plus-circle"></i>
+				Add new category
+			</a>
+
+			<div class="vspace-30"></div>
+
+			{% if get_flashed_messages() %}
+				<div class="alert alert-info alert-dismissible fade show" role="alert">
+				  	{% with messages = get_flashed_messages() %}
+						{% for message in messages %}
+							<p>{{ message }}</p>
+						{% endfor %}
+					{% endwith %}
+
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				
+				<div class="vspace-30"></div>
+			{% endif %}
+
+			
+			{% if user_categories %}
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th width="50">#</th>
+							<th>Category name</th>
+							<th width="100"></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for category in user_categories %}
+						<tr>
+							<td>{{ category.id }}</td>
+							<td>{{ category.name }}</td>
+							<td>
+								<a href="{{ url_for('deleteCategoryById', id=category.id) }}" class="btn btn-sm btn-warning tn-tooltip" onclick="return confirm('Are you sure!?');" data-toggle="tooltip" data-placement="top" title="Remove category">
+									<i class="fa fa-close"></i>
+								</a>
+								<a href="{{ url_for('updateCategory', id=category.id) }}" class="btn btn-sm btn-warning tn-tooltip" data-toggle="tooltip" data-placement="top" title="Edit category">
+									<i class="fa fa-edit"></i>
+								</a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			</div>
+			{% else %}
+				<p>0 categories</p>
+			{% endif %}
+
+
+
+
+	<div class="vspace-30"></div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}New :: Categories{% endblock %}
+
+{% block content %}
+	<div class="vspace-30"></div>
+
+	<div class="container">
+
+
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<h4>Create new category</h4>
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<p class="pull-right"></p>
+			</div>
+		</div>
+
+
+		<div class="vspace-30"></div>
+
+
+		<form method="post" action="{{ url_for('createNewCategory') }}">
+			<div class="form-group">
+				<label>Name:</label>
+				<input type="text" name="name" class="form-control form-control-sm">
+			</div>
+		    <button type="submit" class="btn btn-sm btn-warning">
+		    	Submit
+			</button>
+		</form>
+
+
+	</div>
+
+
+	<div class="vspace-30"></div>
+{% endblock %}
+

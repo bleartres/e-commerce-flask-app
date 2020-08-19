@@ -1,0 +1,84 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Shop{% endblock %}
+
+{% block content %}
+	<div class="vspace-30"></div>
+
+	<div class="container">
+		<ul class="list-group list-group-horizontal">
+			{% for category in categories %}
+				{% if countProductsForCategory(category.id) > 0 %}
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+				    	<a href="{{ url_for('showProductsForCategory', category=category.id) }}">{{ category.name }}</a>
+				    	<span class="badge badge-primary badge-pill">
+				    		{{ countProductsForCategory(category.id) }}
+				    	</span>
+				  	</li>
+				 {% endif %}
+		  	{% endfor %}
+		</ul>
+	</div>
+
+
+
+	{% if get_flashed_messages() %}
+		<div class="container">
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+			  	{% with messages = get_flashed_messages() %}
+					{% for message in messages %}
+						<p>{{ message }}</p>
+					{% endfor %}
+				{% endwith %}
+
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    <span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+		</div>
+	{% endif %}
+
+
+
+	<div class="vspace-30"></div>
+
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<img src="{{ url_for('static', filename='img/products/') }}{{ generateImageForProduct(product.image) }}" width="100%">
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+				<h3>{{ product.name }}</h3>
+				<p>
+					{{ product.description }}
+				</p>
+				<p class="prices">
+			    				{% if int(product.discount) > 0 %}
+				    				Sale 
+				    				<strong style="color: #900">
+				    					{{ product.discount }}%
+				    				</strong>
+				    				&nbsp;&nbsp;&nbsp;&nbsp;
+				    				<strike>{{ product.price }}&euro;</strike> 
+				    				| 
+				    				{{ float(product.price) - ((float(product.price) * int(product.discount)) / 100) }}&euro;
+				    			{% else %}
+									{{ product.price }}&euro;
+				    			{% endif %}
+			    </p>
+			    <div class="vspace-30"></div>
+			    <form method="POST" action="{{ url_for('addToCart') }}">
+			    	<input type="hidden" name="id" value="{{ product.id }}">
+			    	<input type="number" name="qty" min="1" max="100" value="1">
+			    	<div class="vspace-30"></div>
+			    	<button type="submit" class="btn btn-sm btn-warning">
+			    		<i class="fa fa-plus-circle"></i>
+			    		Add to cart
+			    	</button>
+			    </form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

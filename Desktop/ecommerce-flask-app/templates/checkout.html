@@ -1,0 +1,75 @@
+{% extends 'layouts/app.html' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+
+	<div class="vspace-30"></div>
+
+
+	<div class="container" id="checkout">
+		<form method="POST" action="{{ url_for('checkout') }}">
+			<div class="row">
+				<form>
+					<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+						<h1>Personal details</h1>
+						<div class="dev-sm"></div>
+						<div class="vspace-30"></div>
+
+						<!-- FORM: Personal Details -->
+							<div class="form-group">
+								<label>Name:</label>
+								<input type="text" name="name" class="form-control form-control-sm">
+							</div>
+							<div class="form-group">
+								<label>Surname:</label>
+								<input type="text" name="surname" class="form-control form-control-sm">
+							</div>
+							<div class="form-group">
+								<label>Address:</label>
+								<textarea type="text" name="address" class="form-control form-control-sm"></textarea>
+							</div>
+							<div class="form-group">
+								<label>City/Town:</label>
+								<input type="text" name="city_town" class="form-control form-control-sm">
+							</div>
+							<div class="form-group">
+								<label>Zip code:</label>
+								<input type="text" name="zip_code" class="form-control form-control-sm">
+							</div>	
+					</div>		
+					<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+						<h1>Cart details</h1>
+						<div class="dev-sm"></div>	
+						<div class="vspace-30"></div>
+
+						<!-- FORM: Cart Details -->
+							<div class="form-group">
+								<label>Name & Surname</label>
+								<input type="text" name="cart_name_surname" class="form-control form-control-sm" placeholder="Example: John Smith" />
+							</div>
+							<div class="form-group">
+								<label>Cart number</label>
+								<input type="text" name="cart_number" class="form-control form-control-sm" placeholder="Example: 5464 3421 5344 6542" />
+							</div>
+							<div class="form-group">
+								<label>CCV</label>
+								<input type="text" name="cart_ccv" class="form-control form-control-sm" placeholder="Example: 987" />
+							</div>
+					</div>		
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<button type="submit" class="btn btn-sm btn-warning">
+						Submit
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+	<div class="vspace-30"></div>
+
+{% endblock %}
